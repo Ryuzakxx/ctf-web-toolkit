@@ -1,5 +1,5 @@
 # Bash commands to analyze URLs
-A list of bash commands to analyze and get output of elements in URLs, such as heads, json, ecc...
+A list of bash commands to analyze and get output of elements in URLs, send POST, PUT, PATCH requests to servers. ecc...
 
 
 HEADER Request 
