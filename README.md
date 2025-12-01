@@ -406,6 +406,6 @@ Created for computer science students - **Kali Linux & CTF**
 
 **Happy Hacking! 🚀🔐**
 
-Made with ❤️ for the CTF community
+Made by Ryuzakxx
 
 </div>
