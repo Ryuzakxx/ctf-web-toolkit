@@ -1,0 +1,412 @@
+# 🔐 Comandi da Terminale per Analisi Web
+
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![it](https://img.shields.io/badge/lang-it-green.svg)](README.it.md)
+
+> 🎯 Guida completa per CTF e Penetration Testing su Kali Linux
+
+[![Kali Linux](https://img.shields.io/badge/Kali-Linux-blue?logo=kalilinux)](https://www.kali.org/)
+[![CTF](https://img.shields.io/badge/CTF-Ready-green)](https://ctftime.org/)
+[![Security](https://img.shields.io/badge/Security-Tools-red)](https://github.com)
+
+---
+
+## 📋 Indice
+
+- [🌐 Analisi Header HTTP](#-analisi-header-http)
+- [🔍 Metodi HTTP (Verbi)](#-metodi-http-verbi)
+- [📤 Invio Richieste POST e Form](#-invio-richieste-post-e-form)
+- [🚀 Richieste HTTP Avanzate](#-richieste-http-avanzate)
+- [🌍 Scansione Web Generale](#-scansione-web-generale)
+- [🔌 Scansione Porte e Servizi](#-scansione-porte-e-servizi)
+- [🌐 Analisi DNS](#-analisi-dns)
+- [📂 Scansione Directory e File](#-scansione-directory-e-file)
+- [📡 Informazioni WHOIS e Traceroute](#-informazioni-whois-e-traceroute)
+- [🛠️ Tool Specializzati](#️-tool-specializzati)
+- [💡 Note Utili](#-note-utili)
+
+---
+
+## 🌐 Analisi Header HTTP
+
+### Richiesta HEAD (solo header)
+```bash
+curl -I http://esempio.it
+```
+
+### Richiesta GET con header visibili
+```bash
+curl -i http://esempio.it
+```
+
+### Header con output dettagliato
+```bash
+curl -v http://esempio.it
+```
+
+### Seguire i redirect
+```bash
+curl -L -I http://esempio.it
+```
+
+---
+
+## 🔍 Metodi HTTP (Verbi)
+
+> 💡 **Tip per CTF**: Usa sempre OPTIONS per scoprire i metodi supportati, poi prova anche quelli "nascosti"!
+
+### Scoprire metodi supportati (OPTIONS)
+```bash
+curl -X OPTIONS http://esempio.it/ -i
+```
+
+### GET - Recuperare risorsa
+```bash
+curl -X GET http://esempio.it/
+```
+
+### HEAD - Solo header (senza body)
+```bash
+curl -X HEAD http://esempio.it/ -i
+# oppure
+curl -I http://esempio.it/
+```
+
+### POST - Inviare dati
+```bash
+curl -X POST http://esempio.it/ -d "data"
+```
+
+### PUT - Sostituire risorsa completa
+```bash
+curl -X PUT http://esempio.it/resource -d "data"
+```
+
+### PATCH - Modificare parzialmente
+```bash
+curl -X PATCH http://esempio.it/resource -d "data"
+```
+
+### DELETE - Eliminare risorsa
+```bash
+curl -X DELETE http://esempio.it/resource
+```
+
+### TRACE - Debug del percorso
+```bash
+curl -X TRACE http://esempio.it/
+```
+
+### CONNECT - Tunnel TCP/IP
+```bash
+curl -X CONNECT http://esempio.it/
+```
+
+### OPTIONS verbose (ideale per CTF)
+```bash
+curl -v -X OPTIONS http://esempio.it/
+```
+
+---
+
+## 📤 Invio Richieste POST e Form
+
+### POST con dati form (URL-encoded)
+```bash
+curl -X POST http://esempio.it/login -d "username=admin&password=admin"
+```
+
+### POST con Content-Type esplicito
+```bash
+curl -X POST http://esempio.it/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=admin&password=admin"
+```
+
+### POST con JSON (apici singoli) ⭐
+```bash
+curl -X POST http://esempio.it/api \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin"}'
+```
+
+### POST con JSON (apici doppi escaped)
+```bash
+curl -X POST http://esempio.it/api \
+  -H "Content-Type: application/json" \
+  -d "{\"username\":\"admin\",\"password\":\"admin\"}"
+```
+
+### POST con JSON (header con apici singoli)
+```bash
+curl -X POST http://esempio.it/api \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"admin"}'
+```
+
+### POST verbose (per debug) 🐛
+```bash
+curl -v -X POST http://esempio.it/api \
+  -H "Content-Type: application/json" \
+  -d '{"key":"value"}'
+```
+
+### POST con file
+```bash
+curl -X POST http://esempio.it/upload -F "file=@documento.txt"
+```
+
+### POST multipart/form-data
+```bash
+curl -X POST http://esempio.it/form \
+  -F "nome=Mario" \
+  -F "file=@foto.jpg"
+```
+
+---
+
+## 🚀 Richieste HTTP Avanzate
+
+### Aggiungere header personalizzato
+```bash
+curl -H "User-Agent: MioBot" http://esempio.it
+```
+
+### Multipli header
+```bash
+curl -H "User-Agent: Bot" \
+     -H "Authorization: Bearer token123" \
+     http://esempio.it
+```
+
+### Verbose mode (mostra tutto) 📊
+```bash
+curl -v http://esempio.it
+```
+
+### Include response headers
+```bash
+curl -i http://esempio.it
+```
+
+### Salvare cookie 🍪
+```bash
+curl -c cookies.txt http://esempio.it
+```
+
+### Usare cookie salvati
+```bash
+curl -b cookies.txt http://esempio.it
+```
+
+### Autenticazione Basic
+```bash
+curl -u username:password http://esempio.it
+```
+
+### Seguire redirect automaticamente
+```bash
+curl -L http://esempio.it
+```
+
+### Salvare output in file
+```bash
+curl -o output.html http://esempio.it
+```
+
+### Timeout per la richiesta ⏱️
+```bash
+curl --max-time 10 http://esempio.it
+```
+
+### Ignorare errori certificato SSL
+```bash
+curl -k https://esempio.it
+```
+
+---
+
+## 🌍 Scansione Web Generale
+
+### Scaricare una pagina
+```bash
+wget http://esempio.it
+```
+
+### Vedere gli header del server
+```bash
+wget --server-response --spider http://esempio.it
+```
+
+### Scaricare ricorsivamente un sito
+```bash
+wget -r http://esempio.it
+```
+
+---
+
+## 🔌 Scansione Porte e Servizi
+
+### Scansione base con nmap
+```bash
+nmap esempio.it
+```
+
+### Scansione porte comuni
+```bash
+nmap -F esempio.it
+```
+
+### Scansione con rilevamento servizi
+```bash
+nmap -sV esempio.it
+```
+
+### Scansione completa 💪
+```bash
+nmap -A esempio.it
+```
+
+---
+
+## 🌐 Analisi DNS
+
+### Informazioni DNS base
+```bash
+nslookup esempio.it
+```
+
+### Informazioni DNS dettagliate
+```bash
+dig esempio.it
+```
+
+### Tutti i record DNS
+```bash
+dig esempio.it ANY
+```
+
+### DNS inverso
+```bash
+dig -x 192.168.1.1
+```
+
+---
+
+## 📂 Scansione Directory e File
+
+### Gobuster (directory enumeration) 🔎
+```bash
+gobuster dir -u http://esempio.it \
+  -w /usr/share/wordlists/dirb/common.txt
+```
+
+### Dirb
+```bash
+dirb http://esempio.it
+```
+
+### Nikto (vulnerability scanner) 🛡️
+```bash
+nikto -h http://esempio.it
+```
+
+---
+
+## 📡 Informazioni WHOIS e Traceroute
+
+### Informazioni dominio
+```bash
+whois esempio.it
+```
+
+### Tracciare il percorso
+```bash
+traceroute esempio.it
+```
+
+### Ping base
+```bash
+ping esempio.it
+```
+
+---
+
+## 🛠️ Tool Specializzati
+
+### HTTPie (output colorato e leggibile) 🎨
+```bash
+http http://esempio.it
+```
+
+### Netcat (connessione manuale)
+```bash
+nc esempio.it 80
+```
+
+### Telnet (per HTTP manuale)
+```bash
+telnet esempio.it 80
+```
+
+---
+
+## 💡 Note Utili
+
+### 🎯 Consigli per le CTF
+
+- ✅ **curl** è il tool più versatile per analizzare header HTTP
+- ✅ **nmap** è essenziale per la scansione di porte e servizi
+- ✅ **gobuster** e **dirb** sono ottimi per trovare directory nascoste
+- ✅ Nelle CTF, controlla sempre gli **header HTTP personalizzati** per eventuali flag
+- ✅ Usa **-v** (verbose) per avere più informazioni durante l'esecuzione
+- ✅ **OPTIONS** rivela i metodi HTTP supportati, ma prova sempre anche **PUT**, **PATCH**, **DELETE**
+- ✅ Il metodo "imprevisto" nelle CTF potrebbe **non essere** nell'elenco `Allow`
+- ✅ Per JSON usa apici singoli esterni: `-d '{"key":"value"}'`
+- ✅ Se un metodo ritorna **401 Unauthorized**, prova gli altri metodi HTTP disponibili
+
+### 🔒 Sicurezza
+
+> ⚠️ **Attenzione**: Questi comandi sono destinati esclusivamente a scopi educativi e per CTF autorizzate. Non utilizzarli su sistemi esterni senza autorizzazione.
+
+### 📚 Risorse Utili
+
+- [OliCyber.IT](https://olicyber.it/) - Olimpiadi Italiane di Cybersecurity
+- [CTFtime](https://ctftime.org/) - Database di CTF
+- [HackTheBox](https://www.hackthebox.eu/) - Piattaforma di training
+- [TryHackMe](https://tryhackme.com/) - Learning Cybersecurity
+
+---
+
+## 🤝 Contribuire
+
+Hai suggerimenti o nuovi comandi da aggiungere?
+
+1. 🍴 Fork del repository
+2. ✨ Crea un branch per la tua feature
+3. 📝 Commit delle modifiche
+4. 🚀 Push al branch
+5. 🎉 Apri una Pull Request
+
+---
+
+## 📝 Licenza
+
+Questo progetto è rilasciato sotto licenza MIT - vedi il file [LICENSE](LICENSE) per i dettagli.
+
+---
+
+## 👨‍💻 Autore
+
+Creato per studenti di informatica - **Kali Linux & CTF**
+  
+
+---
+
+<div align="center">
+
+**Happy Hacking! 🚀🔐**
+
+Made by Ryuzakxx
+
+</div>
