@@ -1,7 +1,7 @@
 # 🔐 Comandi da Terminale per Analisi Web
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/Ryuzakxx/ctf-web-toolkit/blob/main/README.md)
-[![it](https://img.shields.io/badge/lang-it-green.svg)](https://github.com/Ryuzakxx/ctf-web-toolkit/blob/main/README_IT)
+[![it](https://img.shields.io/badge/lang-it-green.svg)](https://github.com/Ryuzakxx/ctf-web-toolkit/blob/main/README_IT.md)
 
 > 🎯 Guida completa per CTF e Penetration Testing su Kali Linux
 
